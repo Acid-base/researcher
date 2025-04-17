@@ -1,0 +1,33 @@
+version: '3.8'
+services:
+  searxng:
+    image: searxng/searxng:latest
+    container_name: searxng
+    ports:
+      - '8080:8080'
+    volumes:
+      - ./searxng_data:/etc/searxng
+    networks:
+      - research_network
+    restart: unless-stopped
+
+  research_app:
+    build: ./research_app
+    container_name: research_app
+    ports:
+      - '5000:5000'
+    environment:
+      - SEARXNG_HOST=http://searxng:8080
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+    volumes:
+      - ./txtai_index:/app/txtai_index
+      - ./data:/app/data
+    depends_on:
+      - searxng
+    networks:
+      - research_network
+    restart: unless-stopped
+
+networks:
+  research_network:
+    driver: bridge

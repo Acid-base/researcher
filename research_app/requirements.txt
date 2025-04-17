@@ -1,0 +1,12 @@
+# Requirements for the research_app
+# Add more as needed for your implementation
+flask
+requests
+httpx
+beautifulsoup4
+lxml
+txtai
+pymupdf
+pdfplumber
+PyPDF2
+litellm
